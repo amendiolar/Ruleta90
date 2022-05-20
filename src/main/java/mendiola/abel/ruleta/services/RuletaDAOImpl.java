@@ -34,6 +34,16 @@ public class RuletaDAOImpl implements RuletaDAO
     public Ruleta openRuleta(Ruleta ruleta, Long id)
     {
         Ruleta ruleta2Open = ruletaRepository.findById(id).get();
+
+        if(ruleta2Open.getId()==null)
+        {
+            throw new NotFoundException("La ruleta con ID %d no existe", id);
+        }
+
+        if(ruleta2Open.getEstaAbierta()==true)
+        {
+            throw new BadRequestException("La ruleta ya está abierta");
+        }
         ruleta2Open.setEstaAbierta(ruleta.getEstaAbierta());
         return ruletaRepository.save(ruleta2Open);
     }
