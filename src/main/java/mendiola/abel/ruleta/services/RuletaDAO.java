@@ -1,7 +1,10 @@
 package mendiola.abel.ruleta.services;
 
+import mendiola.abel.ruleta.models.entities.Apuesta;
 import mendiola.abel.ruleta.models.entities.Ruleta;
+import org.apache.tomcat.util.digester.Rule;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface RuletaDAO
@@ -10,7 +13,9 @@ public interface RuletaDAO
 
     public Ruleta openRuleta(Ruleta ruleta, Long id);
 
-    public Ruleta saveApuesta(Ruleta entidad);
+    public Apuesta saveApuesta(Apuesta entidad);
 
-    public Optional<Ruleta> findById(Long id);
+    public Iterable<Apuesta> buscarApuestasPorRuleta(Long ruletaId);
+
+    List<Ruleta> fetchRuletasList();
 }

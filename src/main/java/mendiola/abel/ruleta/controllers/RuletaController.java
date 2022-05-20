@@ -2,6 +2,7 @@ package mendiola.abel.ruleta.controllers;
 
 import mendiola.abel.ruleta.exceptions.BadRequestException;
 import mendiola.abel.ruleta.exceptions.NotFoundException;
+import mendiola.abel.ruleta.models.entities.Apuesta;
 import mendiola.abel.ruleta.models.entities.Ruleta;
 import mendiola.abel.ruleta.services.RuletaDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,15 +77,38 @@ public class RuletaController
      */
 
     @PostMapping("/apostar")
-    public Ruleta saveApuesta(@Valid @RequestBody Ruleta entidad)
+    public Apuesta saveApuesta(@Valid @RequestBody Apuesta entidad)
     {
         return ruletaDao.saveApuesta(entidad);
     }
 
 
+    /**
+     * 4. Endpoint de cierre apuestas dado un id de ruleta, este Endpoint debe devolver
+     * el resultado de las apuestas hechas desde su apertura hasta el cierre.
+     * @return
+     * @NotFoundException En caso de que no encuentre ningun elemento en la base de datos
+     * @author AMR - 17-mayo-2022
+     */
 
+    @GetMapping("/apuestasPorRuleta/{ruletaId}")
+    public ResponseEntity<?> buscarApuestasPorRuleta(@PathVariable ("ruletaId") Long id)
+    {
+        List<Apuesta> apuestas = (List<Apuesta>) ruletaDao.buscarApuestasPorRuleta(id);
+        return new ResponseEntity<List<Apuesta>>(apuestas,HttpStatus.OK);
+    }
 
+    /**
+     * 5. Endpoint de listado de ruletas creadas con sus estados (abierta o cerrada)
+     * @return
+     * @NotFoundException En caso de que no encuentre ningun elemento en la base de datos
+     * @author AMR - 17-mayo-2022
+     */
 
-
+    @GetMapping("/listadoRuletas")
+    public List<Ruleta> fetchRuletasList()
+    {
+        return ruletaDao.fetchRuletasList();
+    }
 
 }
