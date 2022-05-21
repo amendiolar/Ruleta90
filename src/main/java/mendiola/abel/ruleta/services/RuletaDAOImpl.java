@@ -33,14 +33,10 @@ public class RuletaDAOImpl implements RuletaDAO
     @Override
     public Ruleta openRuleta(Ruleta ruleta, Long id)
     {
-        Ruleta ruleta2Open = ruletaRepository.findById(id).get();
+        Ruleta ruleta2Open = ruletaRepository.findById(id).orElseThrow(()-> new NotFoundException("La ruleta con ID %d no existe", id) );
 
-        if(ruleta2Open.getId()==null)
-        {
-            throw new NotFoundException("La ruleta con ID %d no existe", id);
-        }
 
-        if(ruleta2Open.getEstaAbierta()==true)
+        if(ruleta2Open.getEstaAbierta())
         {
             throw new BadRequestException("La ruleta ya está abierta");
         }
@@ -50,8 +46,16 @@ public class RuletaDAOImpl implements RuletaDAO
 
     @Override
     @Transactional
-    public Apuesta saveApuesta(Apuesta entidad)
+    public Apuesta saveApuesta(Apuesta entidad, Long id)
     {
+        Ruleta ruleta2Open = ruletaRepository.findById(id).orElseThrow(()-> new NotFoundException("La ruleta con ID %d no existe", id) );
+
+        if(!ruleta2Open.getEstaAbierta())
+        {
+            throw new BadRequestException("La ruleta está cerrada");
+        }
+
+        entidad.setRuleta(ruleta2Open);
         return apuestaRepository.save(entidad);
     }
 

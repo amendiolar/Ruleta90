@@ -1,5 +1,6 @@
 package mendiola.abel.ruleta.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,11 +35,13 @@ public class Apuesta implements Serializable
     @Column(name = "fecha_alta")
     private Date fechaAlta;
 
+    @JsonIgnoreProperties("apuestas")
     @ManyToOne(optional = true,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinColumn(name = "ruleta_id", foreignKey = @ForeignKey(name = "FK_RULETA_ID"))
     private Ruleta ruleta;
 
     public Apuesta(Long id, String color, Integer numero, Double valorApuesta) {
+        super();
         this.id = id;
         this.color = color;
         this.numero = numero;

@@ -76,10 +76,10 @@ public class RuletaController
      * @return
      */
 
-    @PostMapping("/apostar")
-    public Apuesta saveApuesta(@Valid @RequestBody Apuesta entidad)
+    @PostMapping("/apostar/{ruletaId}")
+    public Apuesta saveApuesta(@PathVariable("ruletaId") Long id, @Valid @RequestBody  Apuesta entidad )
     {
-        return ruletaDao.saveApuesta(entidad);
+        return ruletaDao.saveApuesta(entidad, id);
     }
 
 
