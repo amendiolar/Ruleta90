@@ -59,9 +59,9 @@ public class RuletaController
      * @return
      */
     @PutMapping("/apertura/ruletaId/{ruletaId}")
-    public Ruleta openRuleta(@RequestBody Ruleta ruleta, @PathVariable("ruletaId") Long id)
+    public Ruleta openRuleta(@PathVariable("ruletaId") Long id)
     {
-        return ruletaDao.openRuleta(ruleta,id);
+        return ruletaDao.openRuleta(id);
 
     }
 
@@ -91,11 +91,11 @@ public class RuletaController
      * @author AMR - 17-mayo-2022
      */
 
-    @GetMapping("/apuestasPorRuleta/{ruletaId}")
-    public ResponseEntity<?> buscarApuestasPorRuleta(@PathVariable ("ruletaId") Long id)
+    @PutMapping("/cerrar/{ruletaId}")
+    public Iterable<Apuesta> closeRuleta(@RequestBody Ruleta ruleta, @PathVariable("ruletaId") Long id)
     {
-        List<Apuesta> apuestas = (List<Apuesta>) ruletaDao.buscarApuestasPorRuleta(id);
-        return new ResponseEntity<List<Apuesta>>(apuestas,HttpStatus.OK);
+        ruletaDao.closeRuleta(ruleta,id);
+        return ruletaDao.buscarApuestasPorRuleta(id);
     }
 
     /**

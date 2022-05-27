@@ -11,9 +11,11 @@ public interface RuletaDAO
 {
     public Ruleta save(Ruleta entidad);
 
-    public Ruleta openRuleta(Ruleta ruleta, Long id);
+    public Ruleta openRuleta(Long id);
 
     public Apuesta saveApuesta(Apuesta entidad, Long id);
+
+    public Ruleta closeRuleta(Ruleta ruleta, Long id);
 
     public Iterable<Apuesta> buscarApuestasPorRuleta(Long ruletaId);
 
